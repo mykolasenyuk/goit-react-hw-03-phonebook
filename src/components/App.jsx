@@ -46,6 +46,26 @@ export default class App extends Component {
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
   };
+  componentDidMount() {
+    // console.log('didmount');
+    const contacts = localStorage.getItem('contacts');
+    // console.log(contacts);
+    const parsedContacts = JSON.parse(contacts);
+    // console.log(parsedContacts);
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // console.log('did update');
+    // console.log(prevState);
+    // console.log(this.state);
+    if (this.state.contacts !== prevState.contacts) {
+      // console.log('updatecontacts');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   render() {
     const normalizeContacts = this.state.filter.toLocaleLowerCase();
